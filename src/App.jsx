@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Layout, Menu } from 'antd';
+import { useState } from 'react';
+import SiderMenu from './components/SiderMenu';
+import PageHeader from './components/PageHeader';
+import MainContent from './components/MainContent';
+
+
+
+const { Sider} = Layout;
 
 function App() {
-  const [count, setCount] = useState(0)
+  // useState 是 React 的状态钩子，'alist' 是初始状态值，表示默认选中的菜单项
+  const [current, setCurrent] = useState('alist');
+
+  // 这个映射用于根据 current 状态值动态确定 iframe 加载的地址
+  const urlMap = {
+    alist: '/test.html',
+    ddnsgo: '/test.html',
+    clash: '/test.html',
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Layout style={{ minHeight: '100vh', width: '100vw' }}>
+      <Sider width={200} style={{ background: '#001529' }}>
+        <SiderMenu current={current} setCurrent={setCurrent} /> {/* 侧边栏菜单组件 */}
+      </Sider>
+      <Layout style={{ display: 'flex', flexDirection: 'column' }}>
+        <PageHeader />
+        <MainContent url={urlMap[current]} /> {/* 主内容区域，加载不同的页面 */}
+      </Layout>
+    </Layout>
+  );
 }
 
-export default App
+export default App;
